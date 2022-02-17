@@ -2,11 +2,12 @@ import { createStore } from 'vuex'
 import {Pages} from '../enums/Pages'
 import {callAyncServerProc} from '../utils/ServeProc'
 import authorization from './authorization'
+import registration from './registration'
 
 export default createStore({
   namespaced: true,
   state: {
-    page: Pages.Loading,
+    page: Pages.registration,
     login: "",
     email: "",
     emailConfirmCode: "",
@@ -69,6 +70,7 @@ export default createStore({
     }
   },
   modules: {
-    authorization
+    authorization,
+    registration
   }
 })

@@ -1,4 +1,12 @@
-const auth = {
+export default {
+    toreg: {
+        ru: "К регистрации",
+        en: "To registration",
+    },
+    toauth: {
+        ru: "К авторизации",
+        en: "To authorization"
+    },
     loading: {
         ru: "ты счастливчик",
         en: "you are lucky"
@@ -10,7 +18,9 @@ const auth = {
     dologin: {
         ru: "Авторизироваться",
         en: "Authorization"
+    },
+    doreg: {
+        ru: "Зарегистрироваться",
+        en: "Registration"
     }
 }
-
-export default auth;

@@ -22,6 +22,9 @@ export default {
         }
     },
     actions: {
+        toRegistration({dispatch}){
+            dispatch("setPage", Pages.registration, {root: true});
+        },
         async doAuthorization({state, dispatch, commit}, form){
             try {
                 if(state.spamProtection > Date.now()) return;

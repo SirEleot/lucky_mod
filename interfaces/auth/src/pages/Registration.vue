@@ -1,10 +1,13 @@
 <template>
     <div class="auth-reg flex_jc_ac fullscreen">
-        <form ref="authform"  class="auth-reg_form" @submit.prevent="authorization">
+        <form ref="regform"  class="auth-reg_form" @submit.prevent="registration">
             <AuthInput :value="loginInput" type="text" name="login"/>
+            <AuthInput :value="emailInput" type="email" name="email"/>
             <AuthInput :value="passwordInput" type="password" name="password"/>
+            <AuthInput :value="confirmPasswordInput" type="password" name="confirmPassword"/>
             <AuthInput :value="appKey" type="hidden" name="appKey"/>
-            <button>{{$t(loginButtonText)}}</button>
+            <button>{{$t(regButtonText)}}</button>
+            <div class="auth-reg_toauth" @click="toAuthorization">{{$t(toAuthButtonText)}}</div>
         </form>
     </div>
 </template>
@@ -18,7 +21,7 @@
 
         },
         computed: {
-            ...mapState("authorization",["login", "password"]),
+            ...mapState("registration",["login", "password", "email", "confirmPassword"]),
             ...mapState(["apiUrl", "appKey"]),
             loginInput:{
                 get(){
@@ -28,6 +31,14 @@
                     this.setLogin(value);
                 }
             },
+            emailInput:{
+                get(){
+                    return this.email;
+                },
+                set(value){
+                    this.setPassword(value);
+                }
+            },
             passwordInput:{
                 get(){
                     return this.password;
@@ -35,18 +46,27 @@
                 set(value){
                     this.setPassword(value);
                 }
+            },
+            confirmPasswordInput:{
+                get(){
+                    return this.confirmPassword;
+                },
+                set(value){
+                    this.setConfirmPassword(value);
+                }
             }
         },
         data() {
             return {
-                loginButtonText: "auth.dologin"
+                regButtonText: "auth.doreg",
+                toAuthButtonText: "auth.toauth"
             }
         },
         methods: {
-            ...mapMutations("authorization",["setLogin","setPassword"]),
-            ...mapActions("authorization", ["doAuthorization"]),
-            authorization(){
-                this.doAuthorization(this.$refs.authform)
+            ...mapMutations("registration",["setLogin", "setPassword", "setEmail", "setConfirmPassword"]),
+            ...mapActions("registration", ["doRegistration", "toAuthorization"]),
+            registration(){
+                this.doRegistration(this.$refs.regform)
             }
         },
         components: {
@@ -60,6 +80,9 @@
         
         &_form{
 
+        }
+        &_toauth{
+            color: #000;
         }
     }
 </style>

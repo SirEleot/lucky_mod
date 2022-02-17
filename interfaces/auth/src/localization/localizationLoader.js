@@ -14,6 +14,7 @@ export function getI18nOptions(){
     keys.forEach(key => {
         options.messages[key] = loadLocal(key);
     });
+    
     return options;
 }
 
@@ -21,9 +22,9 @@ function loadLocal(local){
     const result= {};
     for (const moduleKey in localization) {        
         const module = localization[moduleKey];
+        result[moduleKey] = {};
         for (const messageKey in module) {
             const message = module[messageKey];
-            result[moduleKey] = {};
             if(message[local])
                 result[moduleKey][messageKey] = message[local];
             else 

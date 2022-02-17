@@ -4,6 +4,7 @@ class PagesEnum{
         this.loading = "Loading";
         this.registration = "Registration";
         this.badSocial = "BadSocialClubId";
+        this.emailConfirm = "EmailConfirm";
     }
 }
 

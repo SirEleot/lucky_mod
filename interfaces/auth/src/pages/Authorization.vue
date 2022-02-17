@@ -5,6 +5,7 @@
             <AuthInput :value="passwordInput" type="password" name="password"/>
             <AuthInput :value="appKey" type="hidden" name="appKey"/>
             <button>{{$t(loginButtonText)}}</button>
+            <div class="auth-auth_toreg" @click="toRegistration">{{$t(toRegButtonText)}}</div>
         </form>
     </div>
 </template>
@@ -39,12 +40,13 @@
         },
         data() {
             return {
-                loginButtonText: "auth.dologin"
+                loginButtonText: "auth.dologin",
+                toRegButtonText: "auth.toreg"
             }
         },
         methods: {
             ...mapMutations("authorization",["setLogin","setPassword"]),
-            ...mapActions("authorization", ["doAuthorization"]),
+            ...mapActions("authorization", ["doAuthorization", "toRegistration"]),
             authorization(){
                 this.doAuthorization(this.$refs.authform)
             }
@@ -60,6 +62,9 @@
         
         &_form{
 
+        }
+        &_toreg{
+            color: #000;
         }
     }
 </style>

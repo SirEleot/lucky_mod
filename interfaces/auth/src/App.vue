@@ -5,6 +5,7 @@
 <script>
 import Authorization from './pages/Authorization.vue'
 import Loading from './pages/Loading.vue'
+import Registration from './pages/Registration.vue'
 import BadSocialClubId from './pages/BadSocialClubId.vue'
 import { mapActions, mapState } from 'vuex';
 
@@ -27,7 +28,8 @@ export default {
   components: {
     Authorization,
     Loading,
-    BadSocialClubId
+    BadSocialClubId,
+    Registration
   },
   mounted(){
     window.dispatch = this.dispatch;
