@@ -1,0 +1,5 @@
+{
+  "DbConnectionString": "Server=localhost;uid=gtago_user;pwd=gtago_password;Port=3306;database=luckymod;",
+  "DbSavePeriodInMinutes": 5,
+  "PrivateKey": "pihIuH@8JoihOHoi_J09UI0I890"
+}

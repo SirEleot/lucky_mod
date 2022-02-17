@@ -1,0 +1,26 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="Authorization\Enums\" />
+    <Folder Include="Authorization\Models\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="MessagePack.Annotations">
+      <HintPath>..\..\..\new\whistler\libs\MessagePack.Annotations.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="xcopy &quot;*.cs&quot; &quot;../Client/Shared/*.*&quot; /Q /Y /D /S /EXCLUDE:exclude.txt" />
+  </Target>
+
+</Project>

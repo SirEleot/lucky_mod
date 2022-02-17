@@ -1,0 +1,9 @@
+{
+  "profiles": {
+    "Server": {
+      "commandName": "Executable",
+      "executablePath": "F:\\Lucky\\Build\\ragemp-server.exe",
+      "workingDirectory": "F:\\Lucky\\Build"
+    }
+  }
+}
