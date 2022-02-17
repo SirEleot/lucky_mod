@@ -22,7 +22,7 @@
         },
         computed: {
             ...mapState("registration",["login", "password", "email", "confirmPassword"]),
-            ...mapState(["apiUrl", "appKey"]),
+            ...mapState(["appKey"]),
             loginInput:{
                 get(){
                     return this.login;

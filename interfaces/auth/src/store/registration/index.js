@@ -49,6 +49,7 @@ export default {
                     dispatch("setToken", result.message, {root: true})
                     break;                
                 case AuthStatuses.emailNotConfirmed:
+                    commit("setEmail", result.message, {root: true})
                     dispatch("setPage", Pages.emailConfirm, {root: true})
                   break; 
                 default:

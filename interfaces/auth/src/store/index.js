@@ -3,6 +3,7 @@ import {Pages} from '../enums/Pages'
 import {callAyncServerProc} from '../utils/ServeProc'
 import authorization from './authorization'
 import registration from './registration'
+import emailconfirm from './emailconfirm'
 
 export default createStore({
   namespaced: true,
@@ -10,16 +11,22 @@ export default createStore({
     page: Pages.registration,
     login: "",
     email: "",
-    emailConfirmCode: "",
     appKey: "",
     refreshToken: null,
     accessToken: null,
-    badSocialId: false
+    badSocialId: false,
+    devPage: null
   },
   mutations: {
     setPage(state, page){
-      state.page = state.badSocialId ? Pages.badSocial : page;
-    },   
+      if(state.devPage)
+        state.page = state.devPage;
+      else
+        state.page = state.badSocialId ? Pages.badSocial : page;
+    },
+    setEmail(state, email){
+      state.email = email;
+    },
     setAppKey(state, appkey){
       state.appKey = appkey;
     },
@@ -71,6 +78,7 @@ export default createStore({
   },
   modules: {
     authorization,
-    registration
+    registration,
+    emailconfirm
   }
 })

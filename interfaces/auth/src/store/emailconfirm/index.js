@@ -4,14 +4,13 @@ import {Pages} from '../../enums/Pages'
 export default {
     namespaced: true,
     state: {
-        password: "",
-        login: "",
-        authUrl: "https://auth.meta-lucky.ru/auth/login",
+        code: "",
+        confirmUrl: "https://auth.meta-lucky.ru/auth/emailconfirm",
         spamProtection: 0,
         spamDelay: 1000
     },
     mutations: {
-        setLogin(state, login){
+        setCode(state, login){
           state.login = login;
         },
         setPassword(state, password){
@@ -21,31 +20,27 @@ export default {
             state.spamProtection = Date.now() + state.spamDelay;
         }
     },
-    actions: {
-        toRegistration({dispatch}){
-            dispatch("setPage", Pages.registration, {root: true});
-        },
-        async doAuthorization({state, dispatch, commit}, form){
+    actions: {        
+        async doEmailConfirm({state, dispatch, commit}, form){
             try {
                 if(state.spamProtection > Date.now()) return;
                 commit("updateSpamProtection")
                 const formData = new FormData(form);
-                const responce = await fetch(state.authUrl,{
+                const responce = await fetch(state.confirmUrl,{
                     method: "POST",
                     body: formData    
                 })
                 const result = await responce.json();
+                console.log(result);
                 switch (result.status) {
                     case AuthStatuses.ok:
                         dispatch("setPage", Pages.loading, {root: true})
                         break;
-                    case AuthStatuses.userNotFound:
-                        dispatch("setPage", Pages.registration, {root: true})
+                    case AuthStatuses.badEmailCode:
+                        //dispatch("setPage", Pages.registration, {root: true})
+                        console.log(result.status)
                         break;
-                    case AuthStatuses.emailNotConfirmed:
-                        commit("setEmail", result.message, {root: true})
-                        dispatch("setPage", Pages.emailConfirm, {root: true})
-                        break;
+                    
                     default:
                         break;
                 }               

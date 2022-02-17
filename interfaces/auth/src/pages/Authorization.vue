@@ -20,7 +20,7 @@
         },
         computed: {
             ...mapState("authorization",["login", "password"]),
-            ...mapState(["apiUrl", "appKey"]),
+            ...mapState(["appKey"]),
             loginInput:{
                 get(){
                     return this.login;

@@ -7,6 +7,7 @@ import Authorization from './pages/Authorization.vue'
 import Loading from './pages/Loading.vue'
 import Registration from './pages/Registration.vue'
 import BadSocialClubId from './pages/BadSocialClubId.vue'
+import EmailConfirm from './pages/EmailConfirm.vue'
 import { mapActions, mapState } from 'vuex';
 
 export default {
@@ -29,7 +30,8 @@ export default {
     Authorization,
     Loading,
     BadSocialClubId,
-    Registration
+    Registration,
+    EmailConfirm
   },
   mounted(){
     window.dispatch = this.dispatch;

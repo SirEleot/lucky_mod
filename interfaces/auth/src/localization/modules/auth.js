@@ -22,5 +22,9 @@ export default {
     doreg: {
         ru: "Зарегистрироваться",
         en: "Registration"
+    },
+    emailcbutton:{
+        ru: "Подтвердить",
+        en: "Confirm"
     }
 }
