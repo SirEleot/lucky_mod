@@ -8,14 +8,15 @@ import emailconfirm from './emailconfirm'
 export default createStore({
   namespaced: true,
   state: {
-    page: Pages.registration,
+    page: Pages.Loading,
     login: "",
     email: "",
     appKey: "",
     refreshToken: null,
     accessToken: null,
     badSocialId: false,
-    devPage: null
+    devPage: null,
+    messages: []
   },
   mutations: {
     setPage(state, page){
@@ -23,6 +24,9 @@ export default createStore({
         state.page = state.devPage;
       else
         state.page = state.badSocialId ? Pages.badSocial : page;
+    },
+    showMessage(state, message){
+      state.messages.push(message);      
     },
     setEmail(state, email){
       state.email = email;
@@ -40,6 +44,9 @@ export default createStore({
     },
     setWrongSocial(state){
       state.badSocialId = true;
+    },
+    nextMessage(state){
+      state.messages.shift();
     }
   },
   actions: {
@@ -74,6 +81,13 @@ export default createStore({
       } catch (e){
         commit("setPage", Pages.authorization)
       }      
+    }
+  },
+  getters:{
+    message(state){
+      if(state.messages.length > 0)
+        return state.messages[0];
+      else return undefined
     }
   },
   modules: {

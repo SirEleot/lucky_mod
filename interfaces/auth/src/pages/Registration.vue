@@ -16,7 +16,7 @@
     import AuthInput from '../components/AuthInput.vue'
     import { mapActions, mapMutations, mapState } from 'vuex';
     export default {
-        name: 'App',
+        name: 'Registration',
         props: {
 
         },

@@ -14,7 +14,7 @@
     import AuthInput from '../components/AuthInput.vue'
     import { mapActions, mapMutations, mapState } from 'vuex';
     export default {
-        name: 'App',
+        name: 'Authorization',
         props: {
 
         },
@@ -61,7 +61,7 @@
     .auth-auth {
         
         &_form{
-
+            height: 30%;
         }
         &_toreg{
             color: #000;

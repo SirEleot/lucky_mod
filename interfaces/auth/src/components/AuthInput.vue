@@ -6,7 +6,7 @@
 
 <script>
     export default {
-        name: 'App',
+        name: 'AuthInput',
         props: {
             type: String,
             value: String,
@@ -31,7 +31,9 @@
 
 <style lang="scss">
     .auth_input {
-        border: 1px solid #000;
-        color: #000;
+        input{
+            border: 1px solid #000;
+            color: #000;
+        }        
     }
 </style>

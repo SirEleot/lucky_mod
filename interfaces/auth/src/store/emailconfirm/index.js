@@ -37,7 +37,6 @@ export default {
                         dispatch("setPage", Pages.loading, {root: true})
                         break;
                     case AuthStatuses.badEmailCode:
-                        //dispatch("setPage", Pages.registration, {root: true})
                         console.log(result.status)
                         break;
                     
