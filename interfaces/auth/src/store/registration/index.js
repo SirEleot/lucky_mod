@@ -46,14 +46,15 @@ export default {
             console.log(result)
             switch (result.status) {
                 case AuthStatuses.ok:
-                    dispatch("setToken", result.message, {root: true})
-                    break;                
+                  dispatch("setToken", result.message, {root: true})
+                  break;                
                 case AuthStatuses.emailNotConfirmed:
-                    commit("setEmail", result.message, {root: true})
-                    dispatch("setPage", Pages.emailConfirm, {root: true})
+                  commit("setEmail", result.message, {root: true})
+                  dispatch("setPage", Pages.emailConfirm, {root: true})
                   break; 
                 default:
-                    break;
+                  commit("showMessage", "")
+                  break;
             }               
         } catch (e) {
             console.log(e)

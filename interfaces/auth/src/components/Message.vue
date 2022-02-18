@@ -1,8 +1,8 @@
 <template>
     <Transition>
         <div  class="auth-message"  :style="{'border': `1px solid ${color}`}" v-show="message">
-            <div class="auth-message_title" :style="{'color': color}">{{message? message.title: ''}}</div>
-            <div class="auth-message_message">{{message? message.message : ''}}</div>
+            <div class="auth-message_title" :style="{'color': color}">{{message? $t(message.title, message.titleParams): ''}}</div>
+            <div class="auth-message_message">{{message? $t(message.message, message.mesageParams) : ''}}</div>
         </div>        
     </Transition >    
 </template>

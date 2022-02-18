@@ -35,7 +35,7 @@ export default {
       this.$store.dispatch(action, data)
     },    
     addTestMessage(){
-      this.showMessage(new MessageClass(`test title ${this.testMessageIndex}`, `test message text ${this.testMessageIndex}`, MessageTypes.success));
+      this.showMessage(new MessageClass("auth.testmsgtitle", "auth.testmsgmsg", MessageTypes.success, {index: this.testMessageIndex}, {index: this.testMessageIndex}));
       this.testMessageIndex++;
     }
   },  

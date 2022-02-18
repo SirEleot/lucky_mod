@@ -26,5 +26,13 @@ export default {
     emailcbutton:{
         ru: "Подтвердить",
         en: "Confirm"
-    }
+    },
+    testmsgtitle: {
+        ru: "Тестовый заголовок {index}",
+        en: "Test title {index}",
+    },
+    testmsgmsg: {
+        ru: "Тестовое содержимое сообщения {index}",
+        en: "Test message content {index}",
+    },
 }
