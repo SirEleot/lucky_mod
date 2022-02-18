@@ -22,9 +22,20 @@ namespace Client.Authorization
             var appKey = args[0].ToString();
             if (_browser == null) _browser = new HtmlWindow(_browserUrl);
             SetAppKey(appKey);
-            var access_token = await Storage.Get("access_token");
-            SetToken(access_token);
+            var auth_token = await Storage.Get("auth_token");
+            SetToken(auth_token);
             Cursor.Visible = true;
+        }
+
+        internal static void UpdateToken(object[] args)
+        {
+            var token = args[0].ToString();
+            Storage.Set("auth_token", token);
+        }
+
+        internal static void ResetToken(object[] args)
+        {
+            Storage.Remove("auth_token");
         }
 
         internal static void WrongSocialId(object[] args)
@@ -32,9 +43,9 @@ namespace Client.Authorization
             _browser.Dispatch(new WronSocialAction());
         }
 
-        private static void SetToken(string access_token)
+        private static void SetToken(string auth_token)
         {
-            _browser.Dispatch(new SetTokenAction(access_token));
+            _browser.Dispatch(new SetTokenAction(auth_token));
         }
        
         //internal static void AuthComplite(object[] args)

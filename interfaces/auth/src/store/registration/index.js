@@ -1,5 +1,7 @@
 import {AuthStatuses} from '../../enums/Authorization'
 import {Pages} from '../../enums/Pages'
+import Message from '../../classes/Message'
+import {MessageTypes} from '../../enums/Message'
 
 export default {
     namespaced: true,
@@ -43,7 +45,6 @@ export default {
                 body: formData    
             });
             const result = await responce.json();
-            console.log(result)
             switch (result.status) {
                 case AuthStatuses.ok:
                   dispatch("setToken", result.message, {root: true})
@@ -53,7 +54,7 @@ export default {
                   dispatch("setPage", Pages.emailConfirm, {root: true})
                   break; 
                 default:
-                  commit("showMessage", "")
+                  commit("showMessage", new Message("auth.unknownerrormsg", MessageTypes.error), {root: true})
                   break;
             }               
         } catch (e) {

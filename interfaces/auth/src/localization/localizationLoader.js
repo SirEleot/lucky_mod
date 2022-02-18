@@ -1,8 +1,10 @@
 import auth from './modules/auth'
+import msg from './modules/msg'
 import {Locales} from '../enums/I18n'
 
 const localization = {
-    auth
+    auth,
+    msg
 }
 
 export function getI18nOptions(){

@@ -1,5 +1,6 @@
 import {AuthStatuses} from '../../enums/Authorization'
-import {Pages} from '../../enums/Pages'
+import Message from '../../classes/Message'
+import {MessageTypes} from '../../enums/Message'
 
 export default {
     namespaced: true,
@@ -31,15 +32,13 @@ export default {
                     body: formData    
                 })
                 const result = await responce.json();
-                console.log(result);
                 switch (result.status) {
                     case AuthStatuses.ok:
-                        dispatch("setPage", Pages.loading, {root: true})
+                        dispatch("setToken", result.message, {root: true})
                         break;
                     case AuthStatuses.badEmailCode:
-                        console.log(result.status)
-                        break;
-                    
+                        commit("showMessage", new Message("msg.bademailcode", MessageTypes.warning), {root: true})
+                        break;                    
                     default:
                         break;
                 }               

@@ -4,6 +4,10 @@ import {callAyncServerProc} from '../utils/ServeProc'
 import authorization from './authorization'
 import registration from './registration'
 import emailconfirm from './emailconfirm'
+import Message from '../classes/Message'
+import {MessageTypes} from '../enums/Message'
+import {ClienCefEvents, ServerProcs} from '../enums/Events'
+import {AuthStatuses} from '../enums/Authorization'
 
 export default createStore({
   namespaced: true,
@@ -16,7 +20,8 @@ export default createStore({
     accessToken: null,
     badSocialId: false,
     devPage: null,
-    messages: []
+    messages: [],
+    updateTokenUrl: "https://auth.meta-lucky.ru/auth/tokenupdate"
   },
   mutations: {
     setPage(state, page){
@@ -60,27 +65,52 @@ export default createStore({
       commit("setPage", Pages.badSocial);
       commit("setWrongSocial");
     },
-    async setToken({state, commit}, tokenData){
+    async setToken({state, commit, dispatch}, tokenData){
       try {
         const encodedTokenData = Buffer.from(tokenData, 'base64').toString('UTF-8');
         const tokensPair = JSON.parse(encodedTokenData);
         
         commit("setTokens", tokensPair);
         if(state.appKey !== state.accessToken.AppKey){ 
-          commit("setPage", Pages.authorization)
+          commit("setPage", Pages.authorization);
+          commit("showMessage", new Message("msg.badappkey", MessageTypes.error));
           return;
         }
         commit("updateUserData");
-        const result = await callAyncServerProc("auth:player:token:check", Buffer.from(JSON.stringify(state.accessToken)).toString('base64'));        
+        const result = await callAyncServerProc(ServerProcs.checkToken, Buffer.from(JSON.stringify(state.accessToken)).toString('base64'));        
         if(result == "ok"){
-          commit("setPage", Pages.Loading)
+          commit("setPage", Pages.Loading);
+          window.mp.trigger(ClienCefEvents.updateToken, tokenData);
+          commit("showMessage", new Message("msg.authorized", MessageTypes.success, null, {login: state.login}));
         }else{          
-          window.mp.trigger("cef:auth:token:reset");
-          commit("setPage", Pages.authorization)
+          window.mp.trigger(ClienCefEvents.restToken);
+          dispatch("tryUpdateToken");          
         }        
       } catch (e){
         commit("setPage", Pages.authorization)
       }      
+    },
+    async tryUpdateToken({state, dispatch, commit}){
+      try {
+        const formData = new FormData();
+        formData.append("refreshToken", Buffer.from(JSON.stringify(state.refreshToken)).toString('base64'));
+        formData.append("appKey", state.appKey);
+        const responce = await fetch(state.updateTokenUrl, {
+          method: "POST",
+          body: formData
+        })
+        const result = await responce.json();
+        switch (result.status) {
+          case AuthStatuses.ok:
+            dispatch("setToken", result.message);
+            break;        
+          default:
+            commit("setPage", Pages.authorization)
+            break;
+        }
+      } catch (error) {
+        commit("setPage", Pages.authorization)        
+      }
     }
   },
   getters:{

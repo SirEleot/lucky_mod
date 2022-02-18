@@ -1,5 +1,7 @@
 import {AuthStatuses} from '../../enums/Authorization'
 import {Pages} from '../../enums/Pages'
+import Message from '../../classes/Message'
+import {MessageTypes} from '../../enums/Message'
 
 export default {
     namespaced: true,
@@ -37,16 +39,18 @@ export default {
                 const result = await responce.json();
                 switch (result.status) {
                     case AuthStatuses.ok:
-                        dispatch("setPage", Pages.loading, {root: true})
+                        dispatch("setToken", result.message, {root: true})
                         break;
                     case AuthStatuses.userNotFound:
-                        dispatch("setPage", Pages.registration, {root: true})
+                        commit("showMessage", new Message("msg.usernotfound", MessageTypes.warning), {root: true});
+                        //dispatch("setPage", Pages.authorization, {root: true})
                         break;
                     case AuthStatuses.emailNotConfirmed:
                         commit("setEmail", result.message, {root: true})
                         dispatch("setPage", Pages.emailConfirm, {root: true})
                         break;
                     default:
+                        commit("showMessage", new Message("msg.unknownsvrerror", MessageTypes.error), {root: true});
                         break;
                 }               
             } catch (e) {

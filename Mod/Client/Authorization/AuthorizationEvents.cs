@@ -17,8 +17,8 @@ namespace Client.Authorization
             Input.Bind(VirtualKeys.OEM3, false, SwitchCursor);
             Events.Add(AuthEventNames.ClientBeginePlayerAuth, AuthorizationService.BeginePlayerAuth);
             Events.Add(AuthEventNames.ClientAuthSocialWrong, AuthorizationService.WrongSocialId);
-            //Events.Add(AuthEventNames.ClientAccessTokenExpiried, AuthorizationService.TokenExpiried);
-            //Events.Add(AuthEventNames.ClientEmailOtherSocialclub, AuthorizationService.OtherSocialclubOnEmail);
+            Events.Add(AuthEventNames.ClientAuthTokenReset, AuthorizationService.ResetToken);
+            Events.Add(AuthEventNames.ClientAuthUpdateToken, AuthorizationService.UpdateToken);
         }
 
         private void SwitchCursor()
