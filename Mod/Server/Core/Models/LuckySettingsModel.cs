@@ -9,5 +9,6 @@ namespace Server.Core.Models
         public string DbConnectionString { get; set; }
         public int DbSavePeriodInMinutes { get; set; }
         public string PrivateKey { get; set; }
+        public string AppKey { get; set; }
     }
 }

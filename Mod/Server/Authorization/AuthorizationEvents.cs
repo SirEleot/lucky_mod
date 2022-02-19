@@ -26,7 +26,7 @@ namespace Server.Authorization
 
         private void OnPlayerConnected(LuckyPlayer player)
         {
-            player.TriggerEvent(AuthEventNames.ClientBeginePlayerAuth, TokenOptions.APPKEY);
+            player.TriggerEvent(AuthEventNames.ClientBeginePlayerAuth, Lucky.LuckySettings.AppKey);
         }
     }
 }

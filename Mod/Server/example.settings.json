@@ -1,5 +1,6 @@
 {
   "DbConnectionString": "Server=localhost;uid=root;pwd=root;Port=3306;database=luckymod;",
   "DbSavePeriodInMinutes": 5,
-  "PrivateKey": ""
+  "PrivateKey": "",
+    "AppKey":  ""
 }

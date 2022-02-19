@@ -19,6 +19,7 @@ namespace Client.Authorization
             Events.Add(AuthEventNames.ClientAuthSocialWrong, AuthorizationService.WrongSocialId);
             Events.Add(AuthEventNames.ClientAuthTokenReset, AuthorizationService.ResetToken);
             Events.Add(AuthEventNames.ClientAuthUpdateToken, AuthorizationService.UpdateToken);
+            Events.Add(AuthEventNames.ClientAuthCharacterSelect, AuthorizationService.DoCharacterSelect);
         }
 
         private void SwitchCursor()

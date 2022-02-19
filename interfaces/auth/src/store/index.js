@@ -77,12 +77,14 @@ export default createStore({
           return;
         }
         commit("updateUserData");
-        const result = await callAyncServerProc(ServerProcs.checkToken, Buffer.from(JSON.stringify(state.accessToken)).toString('base64'));        
+        const encodedAccessToken= Buffer.from(JSON.stringify(state.accessToken)).toString('base64');
+        const result = await callAyncServerProc(ServerProcs.checkToken, encodedAccessToken);
+        console.log(result);
         if(result == "ok"){
           commit("setPage", Pages.Loading);
           window.mp.trigger(ClienCefEvents.updateToken, tokenData);
           commit("showMessage", new Message("msg.authorized", MessageTypes.success, null, {login: state.login}));
-        }else{          
+        }else{
           window.mp.trigger(ClienCefEvents.restToken);
           dispatch("tryUpdateToken");          
         }        
@@ -101,7 +103,8 @@ export default createStore({
         })
         const result = await responce.json();
         switch (result.status) {
-          case AuthStatuses.ok:
+          case AuthStatuses.ok:           
+            if(process.env.NODE_ENV === 'development') return;
             dispatch("setToken", result.message);
             break;        
           default:

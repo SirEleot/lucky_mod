@@ -27,19 +27,28 @@ export default {
         toRegistration({dispatch}){
             dispatch("setPage", Pages.registration, {root: true});
         },
-        async doAuthorization({state, dispatch, commit}, form){
+        async doAuthorization({state, dispatch, commit, rootState}){
             try {
                 if(state.spamProtection > Date.now()) return;
                 commit("updateSpamProtection")
-                const formData = new FormData(form);
                 const responce = await fetch(state.authUrl,{
                     method: "POST",
-                    body: formData    
+                    headers:{
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        "Login": state.login,
+                        "AppKey": rootState.appKey,
+                        "Password": state.password
+                    })
                 })
                 const result = await responce.json();
                 switch (result.status) {
                     case AuthStatuses.ok:
                         dispatch("setToken", result.message, {root: true})
+                        break;
+                    case AuthStatuses.badApplication:
+                        commit("showMessage", new Message("msg.badappkey", MessageTypes.error), {root: true});
                         break;
                     case AuthStatuses.userNotFound:
                         commit("showMessage", new Message("msg.usernotfound", MessageTypes.warning), {root: true});

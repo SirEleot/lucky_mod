@@ -11,7 +11,7 @@ namespace Shared.Browsers.Actions.Authorization
         private readonly string _token;
         public SetTokenAction(string token)
         {
-            _token = token;
+            _token = $"'{token}'";
         }
         public string GetActionName()
         {

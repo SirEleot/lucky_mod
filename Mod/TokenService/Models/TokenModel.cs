@@ -16,14 +16,14 @@ namespace TokenService.Models
             Login = login;
             Email = email;
             AppKey = appKey;
-            Expiried = DateTime.UtcNow.AddMinutes(TokenService.AccessTokenLifeTimeInMinutes);
+            Expiried = DateTime.UtcNow.AddMinutes(TokenService.AccessTokenLifeTimeInMinutes).ToString();
         }
 
         public int Id { get; set; }
         public string Login { get; set; }
         public string Email { get; set; }
         public string AppKey { get; set; }
-        public DateTime Expiried { get; set; }
+        public string Expiried { get; set; }
         public string Sign { get; set; }
 
         public bool IsAccessToken()

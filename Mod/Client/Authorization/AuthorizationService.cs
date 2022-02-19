@@ -9,6 +9,7 @@ using System.Net.Http;
 using System.Text;
 using Newtonsoft.Json;
 using Shared.Browsers.Actions.Authorization;
+using Shared.DTO;
 
 namespace Client.Authorization
 {
@@ -31,6 +32,13 @@ namespace Client.Authorization
         {
             var token = args[0].ToString();
             Storage.Set("auth_token", token);
+        }
+
+        internal static void DoCharacterSelect(object[] args)
+        {
+            var serealizedCharactersData = (byte[])args[0];
+            var charactersDataList = RAGE.Util.MsgPack.Deserialize<List<LuckyCharacterDTO>>(serealizedCharactersData);
+            RAGE.Ui.Console.Log(ConsoleVerbosity.Info, JsonConvert.SerializeObject(charactersDataList));
         }
 
         internal static void ResetToken(object[] args)

@@ -23,9 +23,9 @@ async function waitCallback(key){
     })    
 }
 
-export async function callAyncServerProc(procName, ...args){
+export async function callAyncServerProc(procName, arg){
     const key = rpcKey++;
-    window.mp.trigger("common:server:proc:call", procName, "rpc:cb:auth", key, args);
+    window.mp.trigger("common:server:proc:call", "rpc:cb:auth", procName, key, arg);
     const result = await waitCallback(key);
     return result;
 }

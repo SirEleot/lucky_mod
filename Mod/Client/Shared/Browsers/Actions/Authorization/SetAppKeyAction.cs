@@ -12,7 +12,7 @@ namespace Shared.Browsers.Actions.Authorization
         private readonly string _appKey;
         public SetAppKeyAction(string appKey)
         {
-            _appKey = appKey;
+            _appKey = $"'{appKey}'";
         }
         public string GetActionName()
         {

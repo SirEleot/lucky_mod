@@ -1,6 +1,6 @@
 <template>
     <div class="auth_input">
-        <input :type="type" :value="value" :name="name">
+        <input :type="type" :name="name" @input="updateValue">
     </div>
 </template>
 
@@ -9,19 +9,21 @@
         name: 'AuthInput',
         props: {
             type: String,
-            value: String,
-            name: String
-        },
+            name: String,
+            modelValue: String
+        },       
+        emits: ['update:modelValue'],
         computed: {
 
         },
         data() {
             return {
-
             }
         },
         methods: {
-
+            updateValue(e){
+                this.$emit('update:modelValue', e.target.value)
+            }
         },
         components: {
 

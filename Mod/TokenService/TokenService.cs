@@ -35,7 +35,7 @@ namespace TokenService
         }
         public bool IsValidTokenSign(TokenModel token)
         {
-            return token?.Sign != null && token.Sign == CreateSign(token) && token.Expiried > DateTime.UtcNow;
+            return token?.Sign != null && token.Sign == CreateSign(token) && DateTime.ParseExact(token.Expiried, "MM/dd/yyyy HH:mm:ss", System.Globalization.CultureInfo.InvariantCulture) > DateTime.UtcNow;
         }
 
         public string SerealizeTokens(TokensPairModel tokensPair)
@@ -72,6 +72,7 @@ namespace TokenService
         {
             var args = token.ParametersToArray(_privateKey);
             var argString = String.Join(_signSeparator, args);
+            Console.WriteLine($"|{argString}|");
             using (SHA256 sha256Hash = SHA256.Create())
             {
                 // ComputeHash - returns byte array  
@@ -83,6 +84,7 @@ namespace TokenService
                 {
                     builder.Append(bytes[i].ToString("x2"));
                 }
+                Console.WriteLine(builder.ToString());
                 return builder.ToString();
             }
         }

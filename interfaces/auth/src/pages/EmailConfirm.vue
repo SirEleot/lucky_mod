@@ -1,9 +1,9 @@
 <template>
     <div class="auth-emailc fullscreen flex_jc_ac">
-        <form ref="emailcform" class="auth-emailc_form" @submit.prevent="confirmEmail" >            
-            <AuthInput :value="codeInput" type="text" name="code"/>
-            <AuthInput :value="appKey" type="hidden" name="appKey"/>
-            <AuthInput :value="email" type="hidden" name="email"/>
+        <form ref="emailcform" class="auth-emailc_form" @submit.prevent="doEmailConfirm" >            
+            <AuthInput v-model="codeInput" type="text"/>
+            <AuthInput v-model="appKey" type="hidden" />
+            <AuthInput v-model="email" type="hidden" />
             <button>{{$t(emailcButtoText)}}</button>
         </form>
     </div>
@@ -37,9 +37,6 @@ import { mapActions, mapMutations, mapState } from 'vuex'
         methods: {
             ...mapActions("emailconfirm", ["doEmailConfirm"]),
             ...mapMutations("emailconfirm", ["setCode"]),
-            confirmEmail(){                
-                this.doEmailConfirm(this.$refs.emailcform)
-            }
         },
         components: {
             AuthInput

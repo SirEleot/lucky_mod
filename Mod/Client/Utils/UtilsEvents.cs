@@ -17,10 +17,10 @@ namespace Client.Utils
 
         private async void ServerProcServer(object[] args)
         {
-            var procName = args[0].ToString();
-            var callback = args[1].ToString();
+            var callback = args[0].ToString();
+            var procName = args[1].ToString();
             var key = Convert.ToInt32(args[2]);
-            var result = await Events.CallRemoteProc(procName,  key);
+            var result = (args.Length > 3) ? await Events.CallRemoteProc(procName, args[3]) : await Events.CallRemoteProc(procName);
             Events.CallLocal(callback, key, result);
         }
         

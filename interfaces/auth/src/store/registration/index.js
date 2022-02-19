@@ -35,16 +35,28 @@ export default {
       toAuthorization({dispatch}){
         dispatch("setPage", Pages.authorization, {root: true})
       },
-      async doRegistration({state, dispatch, commit}, form){
+      async doRegistration({state, dispatch, commit, rootState}){
         try {
           if(state.spamProtection > Date.now()) return;
             commit("updateSpamProtection")
-            const formData = new FormData(form);
+            const data = {
+              "Login": state.login,
+              "Email": state.email,
+              "AppKey": rootState.appKey,
+              "Password": state.password,
+              "ConfirmPassword": state.congirmPassword,              
+              "Promocode": ""
+            };
+            console.log(data)
             const responce = await fetch(state.regUrl,{
-                method: "POST",
-                body: formData    
+              method: "POST",
+              headers:{
+                "Content-Type": "application/json"
+              },
+              body: JSON.stringify(data)    
             });
             const result = await responce.json();
+            console.log(result)
             switch (result.status) {
                 case AuthStatuses.ok:
                   dispatch("setToken", result.message, {root: true})

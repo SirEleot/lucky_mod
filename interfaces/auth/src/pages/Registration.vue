@@ -1,11 +1,11 @@
 <template>
     <div class="auth-reg flex_jc_ac fullscreen">
-        <form ref="regform"  class="auth-reg_form" @submit.prevent="registration">
-            <AuthInput :value="loginInput" type="text" name="login"/>
-            <AuthInput :value="emailInput" type="email" name="email"/>
-            <AuthInput :value="passwordInput" type="password" name="password"/>
-            <AuthInput :value="confirmPasswordInput" type="password" name="confirmPassword"/>
-            <AuthInput :value="appKey" type="hidden" name="appKey"/>
+        <form ref="regform"  class="auth-reg_form" @submit.prevent="doRegistration">
+            <AuthInput v-model="loginInput" type="text"/>
+            <AuthInput v-model="emailInput" type="email"/>
+            <AuthInput v-model="passwordInput" type="password"/>
+            <AuthInput v-model="confirmPasswordInput" type="password"/>
+            <AuthInput v-model="appKey" type="hidden" name="appKey"/>
             <button>{{$t(regButtonText)}}</button>
             <div class="auth-reg_toauth" @click="toAuthorization">{{$t(toAuthButtonText)}}</div>
         </form>
@@ -36,7 +36,7 @@
                     return this.email;
                 },
                 set(value){
-                    this.setPassword(value);
+                    this.setEmail(value);
                 }
             },
             passwordInput:{
@@ -64,10 +64,7 @@
         },
         methods: {
             ...mapMutations("registration",["setLogin", "setPassword", "setEmail", "setConfirmPassword"]),
-            ...mapActions("registration", ["doRegistration", "toAuthorization"]),
-            registration(){
-                this.doRegistration(this.$refs.regform)
-            }
+            ...mapActions("registration", ["doRegistration", "toAuthorization"])           
         },
         components: {
             AuthInput

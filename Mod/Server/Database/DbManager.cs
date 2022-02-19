@@ -40,6 +40,7 @@ namespace Server.Database
         public void OnServerStart()
         {
             Cache = new ServerDbContext();
+            Cache.Database.EnsureCreated();
             _timer = new Timer((double)(Lucky.LuckySettings.DbSavePeriodInMinutes * 1000 * 60));
             _timer.Elapsed += SaveDatabase;
             _timer.Start();

@@ -39,7 +39,7 @@ namespace AuthorizationServer.Controllers
         /// </param>
         /// <returns></returns>
         [HttpPost("register")]
-        public async Task<IActionResult> Register([FromForm] RegisterForm registerData)
+        public async Task<IActionResult> Register(RegisterForm registerData)
         {
             AuthResponceModel responce;
             if (registerData.AppKey == null || registerData.Login == null || registerData.Email == null || registerData.Password == null || registerData.ConfirmPassword == null)
@@ -86,7 +86,7 @@ namespace AuthorizationServer.Controllers
         /// </param>
         /// <returns></returns>
         [HttpPost("login")]
-        public async Task<IActionResult> Login([FromForm]LoginForm loginData)
+        public async Task<IActionResult> Login(LoginForm loginData)
         {
             AuthResponceModel responce;
             if(loginData.AppKey == null || loginData.Login == null || loginData.Password == null)
@@ -115,7 +115,7 @@ namespace AuthorizationServer.Controllers
         /// </param>
         /// <returns></returns>
         [HttpPost("emailconfirm")]
-        public async Task<IActionResult> EmailConfirm([FromForm] ConfirmEmailForm emailConfirm)
+        public async Task<IActionResult> EmailConfirm(ConfirmEmailForm emailConfirm)
         {
             if (emailConfirm.AppKey == null || emailConfirm.Email == null || emailConfirm.Code == null)
                 return Ok(new AuthResponceModel(Enums.StatusCodes.badEntryData));
@@ -140,7 +140,7 @@ namespace AuthorizationServer.Controllers
         /// </param>
         /// <returns></returns>
         [HttpPost("tokenupdate")]
-        public async Task<IActionResult> TokenUpdate([FromForm] UpdateTokenForm updateToken)
+        public async Task<IActionResult> TokenUpdate(UpdateTokenForm updateToken)
         {
             AuthResponceModel responce;
             if (updateToken.AppKey == null || updateToken.RefreshToken == null)
