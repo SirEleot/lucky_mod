@@ -350,3 +350,5 @@ MigrationBackup/
 .ionide/
 /Mod/AuthorizationServer/appsettings.json
 /Mod/Server/settings.json
+
+Build/client_packages/
