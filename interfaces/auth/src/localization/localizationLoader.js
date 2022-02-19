@@ -7,6 +7,7 @@ const localization = {
     msg
 }
 
+
 export function getI18nOptions(){
     const options = {};
     options.locale = Locales.ru;

@@ -2,17 +2,30 @@
   <div>
     <component :is="page" />
     <Message :message="message"  @onnext="nextMessage" class="auth-massage" v-show="message" />
+    <SelectLang class="auth-selectlang" :width="'200px'" :height="'30px'"/>
   </div>
     
 </template>
 
 <script>
+/**
+ * pages
+ */
 import Authorization from './pages/Authorization.vue'
 import Loading from './pages/Loading.vue'
 import Registration from './pages/Registration.vue'
 import BadSocialClubId from './pages/BadSocialClubId.vue'
 import EmailConfirm from './pages/EmailConfirm.vue'
+
+/**
+ * components
+ */
 import Message from './components/Message.vue'
+import SelectLang from './components/SelectLang.vue'
+
+/**
+ * other required
+ */
 import { mapActions, mapGetters, mapMutations, mapState } from 'vuex';
 import {MessageTypes} from './enums/Message'
 import MessageClass from './classes/Message'
@@ -45,7 +58,8 @@ export default {
     BadSocialClubId,
     Registration,
     EmailConfirm,
-    Message
+    Message,
+    SelectLang
   },
   mounted(){
     window.dispatch = this.dispatch;
@@ -111,5 +125,11 @@ export default {
   margin: 2vh auto;
   width: 25vw;
   height: 12vh;
+}
+.auth-selectlang{
+  //border: 1px solid #000;
+  position: absolute;
+  right: 20px;
+  top: 10px;
 }
 </style>
