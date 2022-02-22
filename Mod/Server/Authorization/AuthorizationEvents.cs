@@ -3,9 +3,9 @@ using Server.Core.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Text;
-using Shared.Authorization.Constants;
 using GTANetworkAPI;
 using Server.Database;
+using Shared.Events;
 
 namespace Server.Authorization
 {
@@ -18,7 +18,7 @@ namespace Server.Authorization
             ServerDbContext.ModelCreating += AuthorizationService.ConfigureDbModels;
         }        
 
-        [RemoteProc(AuthEventNames.ServerCheckToken)]
+        [RemoteProc(AuthorizationEventNames.ServerProcCheckToken)]
         public string CheckToken(LuckyPlayer player, string access_token)
         {
             return AuthorizationService.CheckAccessToken(player, access_token);
@@ -26,7 +26,7 @@ namespace Server.Authorization
 
         private void OnPlayerConnected(LuckyPlayer player)
         {
-            player.TriggerEvent(AuthEventNames.ClientBeginePlayerAuth, Lucky.LuckySettings.AppKey);
+            player.TriggerEvent(AuthorizationEventNames.ClientBeginePlayerAuth, Lucky.LuckySettings.AppKey);
         }
     }
 }

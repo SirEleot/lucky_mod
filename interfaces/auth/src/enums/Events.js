@@ -2,6 +2,8 @@ class ClienCefEventsEnum {
     constructor() {
         this.restToken = "cef:auth:token:reset";
         this.updateToken = "cef:auth:token:update";
+        this.selectCharacter = "cef:auth:character:select";
+        this.createCharacter = "cef:auth:character:create";
     }
 }
 

@@ -3,6 +3,7 @@
     <component :is="page" />
     <Message :message="message"  @onnext="nextMessage" class="auth-massage" v-show="message" />
     <SelectLang class="auth-selectlang" :width="'200px'" :height="'30px'"/>
+    <ConfirmationDialog v-if="visible"/>
   </div>
     
 </template>
@@ -16,12 +17,14 @@ import Loading from './pages/Loading.vue'
 import Registration from './pages/Registration.vue'
 import BadSocialClubId from './pages/BadSocialClubId.vue'
 import EmailConfirm from './pages/EmailConfirm.vue'
+import CharacterSelect from './pages/CharacterSelect.vue'
 
 /**
  * components
  */
 import Message from './components/Message.vue'
 import SelectLang from './components/SelectLang.vue'
+import ConfirmationDialog from './components/ConfirmationDialog.vue'
 
 /**
  * other required
@@ -35,6 +38,7 @@ export default {
   computed:{
     ...mapState(["page"]),   
     ...mapGetters(["message"]),
+    ...mapState("confirmationDialog",["visible"])
   },
   data() {
     return {
@@ -59,7 +63,9 @@ export default {
     Registration,
     EmailConfirm,
     Message,
-    SelectLang
+    SelectLang,
+    CharacterSelect,
+    ConfirmationDialog
   },
   mounted(){
     window.dispatch = this.dispatch;
@@ -73,17 +79,23 @@ export default {
 </script>
 
 <style lang="scss">
+*{
+  box-sizing: border-box;
+  
+}
 #app {
   position: absolute;
   top: 0;
   left: 0;
-  width: 100vw;
-  height: 100vh;
+  width: 100%;
+  height: 100%;
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #fff;
+  border: 1px solid #000;
+  overflow: hidden;
 }
 
 .fullscreen{
@@ -92,10 +104,11 @@ export default {
   left: 0;
   width: 100%;
   height: 100%;
+  overflow: hidden;
 }
 
 .flex{
-  &_jc_ac{
+  &_jc_ac,&_ac_jc{
     display: flex;
     justify-content: center;
     align-items: center; 

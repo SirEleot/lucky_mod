@@ -47,7 +47,6 @@ export default {
               "ConfirmPassword": state.congirmPassword,              
               "Promocode": ""
             };
-            console.log(data)
             const responce = await fetch(state.regUrl,{
               method: "POST",
               headers:{
@@ -56,7 +55,6 @@ export default {
               body: JSON.stringify(data)    
             });
             const result = await responce.json();
-            console.log(result)
             switch (result.status) {
                 case AuthStatuses.ok:
                   dispatch("setToken", result.message, {root: true})

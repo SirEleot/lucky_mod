@@ -1,4 +1,4 @@
-﻿using Shared.Browsers.Interfaces;
+﻿using Shared.Browsers.Enums;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -7,24 +7,13 @@ using System.Text;
 
 namespace Shared.Browsers.Actions.Common
 {
-    public class SetPageAction : IBrowserAction
+    public class SetPageAction : BrowserActionBase<string>
     {
-        private readonly string _action = "setPage";
-        private readonly string _page;
-        public SetPageAction(string page)
-        {
-            _page = page;
-        }
+        public SetPageAction(BrowserNames browser, string page) : base(browser, "setPage", page) { }
 
-        public string GetActionName()
+        protected override string SetPayload(string payload)
         {
-            return _action;
-        }
-
-        public string GetPayloadData()
-        {
-            return _page;
-        }
-           
+            return $"'{payload}'";
+        }           
     }
 }

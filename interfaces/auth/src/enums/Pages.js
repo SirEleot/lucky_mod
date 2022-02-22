@@ -5,6 +5,7 @@ class PagesEnum{
         this.registration = "Registration";
         this.badSocial = "BadSocialClubId";
         this.emailConfirm = "EmailConfirm";
+        this.characterSelect = "CharacterSelect";
     }
 }
 

@@ -1,26 +1,18 @@
-﻿using Shared.Browsers.Interfaces;
+﻿using Shared.Browsers.Enums;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace Shared.Browsers.Actions.Authorization
 {
-    class SetTokenAction : IBrowserAction
+    class SetTokenAction : BrowserActionBase<string>
     {
-        private readonly string _action = "setToken";
-        private readonly string _token;
-        public SetTokenAction(string token)
-        {
-            _token = $"'{token}'";
-        }
-        public string GetActionName()
-        {
-            return _action;
-        }
+        public SetTokenAction(string token) : base(BrowserNames.Auth, "setToken", token) { }
 
-        public string GetPayloadData()
+        protected override string SetPayload(string payload)
         {
-            return _token;
+            return $"'{payload}'";
         }
+      
     }
 }

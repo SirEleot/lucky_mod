@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 using RAGE.Ui;
 using RAGE.Game;
-using Shared.Storage.Constants;
+using Shared.Events;
 
 namespace Client.Utils
 {

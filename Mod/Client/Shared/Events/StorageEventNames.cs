@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Shared.Storage.Constants
+namespace Shared.Events
 {
     public abstract class StorageEventNames
     {

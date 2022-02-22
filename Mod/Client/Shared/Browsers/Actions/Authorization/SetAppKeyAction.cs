@@ -1,27 +1,18 @@
-﻿using Shared.Browsers.Interfaces;
+﻿using Shared.Browsers;
+using Shared.Browsers.Enums;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace Shared.Browsers.Actions.Authorization
 {
-    class SetAppKeyAction : IBrowserAction
+    class SetAppKeyAction : BrowserActionBase<string>
     {
-
-        private readonly string _action = "setAppKey";
-        private readonly string _appKey;
-        public SetAppKeyAction(string appKey)
+        public SetAppKeyAction(string appKey):base(BrowserNames.Auth, "appKey", appKey){}       
+       
+        protected override string SetPayload(string payload)
         {
-            _appKey = $"'{appKey}'";
-        }
-        public string GetActionName()
-        {
-            return _action;
-        }
-
-        public string GetPayloadData()
-        {
-            return _appKey;
+            return $"'{payload}'";
         }
     }
 }

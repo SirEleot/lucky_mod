@@ -19,10 +19,6 @@
     </Reference>
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Shared\" />
-  </ItemGroup>
-
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
     <Exec Command="xcopy &quot;*.cs&quot; &quot;../../Build/client_packages/cs_packages/*.*&quot; /Q /Y /D /S /EXCLUDE:exclude.txt&#xD;&#xA;xcopy &quot;../../client_packages_js/*.js&quot; &quot;../../Build/client_packages/*.*&quot; /Q /Y /D /S" />
   </Target>

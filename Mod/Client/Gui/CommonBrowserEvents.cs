@@ -1,21 +1,22 @@
 ﻿using Client.Authorization;
 using RAGE;
+using Shared.Events;
 using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Client.Utils
+namespace Client.Gui
 {
-    class UtilsEvents : Events.Script
+    class CommonBrowserEvents : Events.Script
     {
-        public UtilsEvents()
+        public CommonBrowserEvents()
         {
-            Events.Add("common:server:proc:call", ServerProcServer);
-            Events.Add("rpc:cb:auth", AuthorizationService.RpcCallback);
+            Events.Add(CommonEventNames.ClientCommonProcCall, ServerProcCall);
+            Events.Add(CommonEventNames.ClientCommonAuthProcCallback, AuthorizationService.RpcCallback);
         }
 
-        private async void ServerProcServer(object[] args)
+        private async void ServerProcCall(object[] args)
         {
             var callback = args[0].ToString();
             var procName = args[1].ToString();

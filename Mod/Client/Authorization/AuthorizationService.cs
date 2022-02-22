@@ -2,7 +2,6 @@
 using Newtonsoft.Json.Linq;
 using RAGE;
 using RAGE.Ui;
-using Shared.Authorization.Constants;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
@@ -10,18 +9,16 @@ using System.Text;
 using Newtonsoft.Json;
 using Shared.Browsers.Actions.Authorization;
 using Shared.DTO;
+using Client.Gui;
+using Shared.Events;
 
 namespace Client.Authorization
 {
     static class AuthorizationService
     {
-        private static HtmlWindow _browser;
-        private static readonly string _browserUrl = "package://auth/index.html";
-
         internal async static void BeginePlayerAuth(object[] args)
         {
             var appKey = args[0].ToString();
-            if (_browser == null) _browser = new HtmlWindow(_browserUrl);
             SetAppKey(appKey);
             var auth_token = await Storage.Get("auth_token");
             SetToken(auth_token);
@@ -34,11 +31,26 @@ namespace Client.Authorization
             Storage.Set("auth_token", token);
         }
 
-        internal static void DoCharacterSelect(object[] args)
+        internal static void ToCharacterSelect(object[] args)
         {
             var serealizedCharactersData = (byte[])args[0];
             var charactersDataList = RAGE.Util.MsgPack.Deserialize<List<LuckyCharacterDTO>>(serealizedCharactersData);
             RAGE.Ui.Console.Log(ConsoleVerbosity.Info, JsonConvert.SerializeObject(charactersDataList));
+
+        }
+
+        internal static void DoCharacterCreate(object[] args)
+        {
+            Lucky.IsLoading = true;
+            var id = Convert.ToInt32(args[0]);
+            Events.CallRemote(AuthorizationEventNames.ServerRequestCharaterCreate, id);
+        }
+
+        internal static void DoCharacterSelect(object[] args)
+        {
+            Lucky.IsLoading = true;
+            var id = Convert.ToInt32(args[0]);
+            Events.CallRemote(AuthorizationEventNames.ServerCharaterSelect, id);
         }
 
         internal static void ResetToken(object[] args)
@@ -48,12 +60,12 @@ namespace Client.Authorization
 
         internal static void WrongSocialId(object[] args)
         {
-            _browser.Dispatch(new WronSocialAction());
+            BrowserManager.Dispatch(new WrongSocialAction());
         }
 
         private static void SetToken(string auth_token)
         {
-            _browser.Dispatch(new SetTokenAction(auth_token));
+            BrowserManager.Dispatch(new SetTokenAction(auth_token));
         }
        
         //internal static void AuthComplite(object[] args)
@@ -68,12 +80,12 @@ namespace Client.Authorization
        
         internal static void SetAppKey(string appKey)
         {
-            _browser.Dispatch(new SetAppKeyAction(appKey));
+            BrowserManager.Dispatch(new SetAppKeyAction(appKey));
         }
 
         internal static void RpcCallback(object[] args)
         {
-            _browser.ExecuteJs($"serverProcCallback({args[0]}, {JsonConvert.SerializeObject(args[1])})");
+            BrowserManager.ProcCallbackAuth(args[0].ToString(), JsonConvert.SerializeObject(args[1]));
         }        
     }
 }

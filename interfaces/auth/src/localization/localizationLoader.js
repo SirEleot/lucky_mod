@@ -1,10 +1,12 @@
 import auth from './modules/auth'
 import msg from './modules/msg'
+import confirm from './modules/confirm'
 import {Locales} from '../enums/I18n'
 
 const localization = {
     auth,
-    msg
+    msg,
+    confirm
 }
 
 

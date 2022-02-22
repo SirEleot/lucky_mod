@@ -39,9 +39,6 @@
         },
         components: {
 
-        },
-        mounted(){
-            console.log(this.$i18n.locale)
         }
     }
 </script>

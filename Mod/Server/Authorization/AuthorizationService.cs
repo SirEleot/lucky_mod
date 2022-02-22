@@ -6,8 +6,7 @@ using Newtonsoft.Json.Linq;
 using Server.Core.Entities;
 using Server.Core.Models;
 using Server.Database;
-using Shared.Authorization.Constants;
-using Shared.Storage.Constants;
+using Shared.Events;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -61,11 +60,11 @@ namespace Server.Authorization
                 await NAPI.Task.WaitForMainThread();
                 
                 if (account.SocialId != socialClubId)
-                    player.TriggerEvent(AuthEventNames.ClientAuthSocialWrong);
+                    player.TriggerEvent(AuthorizationEventNames.ClientAuthSocialWrong);
                 else
                 {
                     player.Account = account;
-                    player.TriggerEvent(AuthEventNames.ClientAuthCharacterSelect, account.GetCharacterListData());
+                    player.TriggerEvent(AuthorizationEventNames.ClientAuthToCharacterSelect, account.GetCharacterListData());
                 }
                     
             }

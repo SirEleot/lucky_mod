@@ -1,13 +1,19 @@
 import { createStore } from 'vuex'
 import {Pages} from '../enums/Pages'
 import {callAyncServerProc} from '../utils/ServeProc'
-import authorization from './authorization'
-import registration from './registration'
-import emailconfirm from './emailconfirm'
 import Message from '../classes/Message'
 import {MessageTypes} from '../enums/Message'
 import {ClienCefEvents, ServerProcs} from '../enums/Events'
 import {AuthStatuses} from '../enums/Authorization'
+
+/**
+ * modules
+ */
+import authorization from './authorization'
+import registration from './registration'
+import emailconfirm from './emailconfirm'
+import characterSelect from './characterSelect'
+import confirmationDialog from './confirmationDialog'
 
 export default createStore({
   namespaced: true,
@@ -19,7 +25,7 @@ export default createStore({
     refreshToken: null,
     accessToken: null,
     badSocialId: false,
-    devPage: null,
+    devPage: Pages.characterSelect,
     messages: [],
     updateTokenUrl: "https://auth.meta-lucky.ru/auth/tokenupdate"
   },
@@ -79,7 +85,6 @@ export default createStore({
         commit("updateUserData");
         const encodedAccessToken= Buffer.from(JSON.stringify(state.accessToken)).toString('base64');
         const result = await callAyncServerProc(ServerProcs.checkToken, encodedAccessToken);
-        console.log(result);
         if(result == "ok"){
           commit("setPage", Pages.Loading);
           window.mp.trigger(ClienCefEvents.updateToken, tokenData);
@@ -94,17 +99,24 @@ export default createStore({
     },
     async tryUpdateToken({state, dispatch, commit}){
       try {
-        const formData = new FormData();
-        formData.append("refreshToken", Buffer.from(JSON.stringify(state.refreshToken)).toString('base64'));
-        formData.append("appKey", state.appKey);
+        if(process.env.NODE_ENV === 'development') {
+          commit.setPage(state.page);
+          return;
+        }
+        const data = {
+          RefreshToken: Buffer.from(JSON.stringify(state.refreshToken)).toString('base64'),
+          AppKey: state.appKey
+        };       
         const responce = await fetch(state.updateTokenUrl, {
           method: "POST",
-          body: formData
+          headers:{
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify(data)
         })
         const result = await responce.json();
         switch (result.status) {
-          case AuthStatuses.ok:           
-            if(process.env.NODE_ENV === 'development') return;
+          case AuthStatuses.ok:
             dispatch("setToken", result.message);
             break;        
           default:
@@ -126,6 +138,8 @@ export default createStore({
   modules: {
     authorization,
     registration,
-    emailconfirm
+    emailconfirm,
+    characterSelect,
+    confirmationDialog
   }
 })

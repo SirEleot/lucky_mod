@@ -1,12 +1,12 @@
 ﻿using Client.Utils;
 using RAGE;
 using RAGE.Ui;
-using Shared.Authorization.Constants;
 using System;
 using System.Collections.Generic;
 using System.Text;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using Shared.Events;
 
 namespace Client.Authorization
 {
@@ -14,16 +14,24 @@ namespace Client.Authorization
     {
         public AuthorizationEvents()
         {
+            //bind keys
             Input.Bind(VirtualKeys.OEM3, false, SwitchCursor);
-            Events.Add(AuthEventNames.ClientBeginePlayerAuth, AuthorizationService.BeginePlayerAuth);
-            Events.Add(AuthEventNames.ClientAuthSocialWrong, AuthorizationService.WrongSocialId);
-            Events.Add(AuthEventNames.ClientAuthTokenReset, AuthorizationService.ResetToken);
-            Events.Add(AuthEventNames.ClientAuthUpdateToken, AuthorizationService.UpdateToken);
-            Events.Add(AuthEventNames.ClientAuthCharacterSelect, AuthorizationService.DoCharacterSelect);
+
+            //init client events
+            Events.Add(AuthorizationEventNames.ClientBeginePlayerAuth, AuthorizationService.BeginePlayerAuth);
+            Events.Add(AuthorizationEventNames.ClientAuthSocialWrong, AuthorizationService.WrongSocialId);
+            Events.Add(AuthorizationEventNames.ClientAuthToCharacterSelect, AuthorizationService.ToCharacterSelect);
+
+            //init cef events
+            Events.Add(AuthorizationEventNames.CefClientAuthTokenReset, AuthorizationService.ResetToken);
+            Events.Add(AuthorizationEventNames.CefClientAuthUpdateToken, AuthorizationService.UpdateToken);
+            Events.Add(AuthorizationEventNames.CefClientAuthCharacterSelect, AuthorizationService.DoCharacterSelect);
+            Events.Add(AuthorizationEventNames.CefClientAuthChatacterCreate, AuthorizationService.DoCharacterCreate);
         }
 
         private void SwitchCursor()
         {
+            if (Lucky.IsLoading) return;
             Cursor.Visible = !Cursor.Visible;
         }
     }
